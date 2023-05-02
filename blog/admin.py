@@ -1,6 +1,8 @@
+import csv
 import random
 import string
 from django.contrib import admin
+from django.http import HttpResponse
 from .models import Criticality,ManagedBy,Software,SoftwareType,Vendor
 from .models import Document,DocumentCategory,Status,Service,HardwareType,Hardware
 from .models import Insurance,Country,State,BranchStatus,Branch,Organization_Details
@@ -36,7 +38,18 @@ class HardwareAdmin(admin.ModelAdmin):
     list_display = ('name', 'hardware_type', 'insurance','vendor', 'criticality','branch','managed_by', 'document', 'status', 'purchase_date', 'expiry_date', 'billing_no', 'serial_no', 'purchase_price')
     search_fields = ['__all__'] 
     list_filter = ('hardware_type', 'vendor', 'criticality', 'managed_by', 'status')
-    
+    def print_details(self, request, queryset):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="hardware_details.csv"'
+        writer = csv.writer(response)
+        writer.writerow(['Name', 'Hardware Type', 'Vendor', 'Criticality', 'Branch', 'Managed By', 'Document', 'Status', 'Purchase Date', 'Expiry Date', 'Billing No', 'Serial No', 'Purchase Price', 'Insurance'])
+        for hardware in queryset:
+            writer.writerow([hardware.name, hardware.hardware_type, hardware.vendor, hardware.criticality, hardware.branch, hardware.managed_by, hardware.document, hardware.status, hardware.purchase_date, hardware.expiry_date, hardware.billing_no, hardware.serial_no, hardware.purchase_price, hardware.insurance])
+        return response
+
+    print_details.short_description = "Save hardware details"
+
+    actions = [print_details]
 class InsuranceAdmin(admin.ModelAdmin):
     list_display = ('policy_number', 'company_name', 'insurance_amount', 'premium_price', 'insurance_date', 'maturity_time', 'payment_time')
  

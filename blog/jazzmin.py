@@ -1,16 +1,17 @@
 # from .models import Organization_Details
+# from django.utils.translation import gettext as _
 
 JAZZMIN_SETTINGS = {
     # title of the window (Will default to current_admin_site.site_title if absent or None)
     "site_title": "Trilokya Admin",
     "site_brand": "Trilokya Technology",
-    # "site_brand": Organization_Details._meta.get_field('name'),
+    # # "site_brand": Organization_Details._meta.get_field('name'),
 
-    # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    # # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
     "site_header": "Trilokya Admin",
     "welcome_sign": "Welcome to Trilokya",
     "copyright": "Trilokya Technology",
-    "site_logo": "blog/k.png",
+    "site_logo": "blog/logo.png",
     # "language_chooser": True,
     
     
@@ -25,10 +26,52 @@ JAZZMIN_SETTINGS = {
 
         # model admin to link to (Permissions checked against model)
         {"model": "auth.User"},
-
+        {"model": "blog.Service"},
+        #make search field
+        
         # App with dropdown menu to all its models pages (Permissions checked against models)
         {"app": "blog"},
+        
     ],
+    
+    #Command to hide the specific model you need
+    # "hide_models":["blog.Vendor",], 
+
+#Customizing icons:
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+        # "blog.Service": "fas fa-tachometer-alt",
+        # the fa-tachometer-alt displays dashboard
+        
+        
+        "blog.Branchstatus": "fas fa-code-branch",
+        "blog.Branch": "fas fa-code-branch",
+        "blog.Country": "fas fa-globe",
+        "blog.Criticality": "fas fa-exclamation-triangle",
+        "blog.ManagedBy": "fas fa-building",
+        "blog.Documentcategory": "fas fa-file-alt",
+        "blog.Document": "fas fa-file-alt",
+        "blog.Hardwaretype": "fas fa-microchip",
+        "blog.Hardware": "fas fa-desktop",
+        "blog.Insurance": "fas fa-shield-alt",
+        "blog.Organization_Details": "fas fa-building",
+        "blog.Service": "fas fa-cogs",
+        "blog.Softwaretype": "fas fa-cube",
+        "blog.Software": "fas fa-cube",
+        "blog.State": "fas fa-map-marker-alt",
+        "blog.Status": "fas fa-check-circle",
+        "blog.Vendor": "fas fa-truck",
+        
+        
+    },
+    
+    
+    # "site_icon": "blog/s.svg",
+    # <i class="fa-solid fa-gauge-high"></i>
+    
+    
 # "language_chooser": True,
 # "custom_links": {
 #     "books": [{
