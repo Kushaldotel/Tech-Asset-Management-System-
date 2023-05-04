@@ -1,5 +1,5 @@
 {% extends 'blog/home.html' %}
-{% load static %}
+{% comment %} {% load static %}
 
 {% block title %}My Page Title{% endblock %}
 
@@ -16,4 +16,13 @@
 {% block js %}
     {{ block.super }}
     <script src="{% static 'blog/js/base.js' %}"></script>
+{% endblock %} {% endcomment %}
+
+{% load static %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h1>Hello Kushal</h1>
+    </div>
 {% endblock %}
+

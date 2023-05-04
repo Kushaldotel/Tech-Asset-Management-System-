@@ -1,6 +1,26 @@
 # from .models import Organization_Details
 # from django.utils.translation import gettext as _
 
+# from django.urls import reverse
+# from django.utils.html import format_html
+
+# def my_custom_element():
+#     return {
+#         'title': 'My Custom Element',
+#         'content': format_html('<a href="{}">Click me</a>', reverse('myapp:mymodel_changelist')),
+#         'template': 'blog/home.html',
+#         'order': 1
+#     }
+
+def my_custom_element():
+    return {
+        'title': 'My Custom Element',
+        'content': 'This is my custom element content.',
+        'template': '',
+        'order': 1
+    }
+
+
 JAZZMIN_SETTINGS = {
     # title of the window (Will default to current_admin_site.site_title if absent or None)
     "site_title": "Trilokya Admin",
@@ -61,11 +81,15 @@ JAZZMIN_SETTINGS = {
         "blog.Softwaretype": "fas fa-cube",
         "blog.Software": "fas fa-cube",
         "blog.State": "fas fa-map-marker-alt",
+        #pulse will add animation
+        # "blog.Status": "fas fa-check-circle fa-pulse",
         "blog.Status": "fas fa-check-circle",
         "blog.Vendor": "fas fa-truck",
         
         
     },
+    
+
     
     
     # "site_icon": "blog/s.svg",
@@ -94,3 +118,5 @@ JAZZMIN_SETTINGS = {
 
 # 'custom_css': 'blog/css/custom.css'
 }
+
+JAZZMIN_DASHBOARD_ADMIN_ORDER = [    my_custom_element,    ...]
