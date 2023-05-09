@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from .models import Criticality,ManagedBy,Software,SoftwareType,Vendor
 from .models import Document,DocumentCategory,Status,Service,HardwareType,Hardware
 from .models import Insurance,Country,State,BranchStatus,Branch,Organization_Details
+# from blog.views import MyCustomDashboardView
 
 
 class DocumentAdmin(admin.ModelAdmin):
@@ -123,3 +124,4 @@ admin.site.register(BranchStatus)
 #Model of another app
 # admin.site.register(Check)
 
+# admin.site.register_view('my_custom_dashboard', view=MyCustomDashboardView.as_view())

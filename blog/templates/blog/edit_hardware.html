@@ -1,0 +1,65 @@
+{% extends 'blog/boilerplate.html' %}
+
+{% block title %}
+Edit Hardware
+{% endblock title %}
+
+{% block content_Wrapper %}
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Edit Hardware</h3>
+  </div>
+  <div class="card-body">
+    <form method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" name="name" value="{{ hardware.name }}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <textarea class="form-control" name="description" rows="4" cols="50">{{ hardware.description }}</textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+  </div>
+</div>
+
+{% endblock content_Wrapper %}
+
+<style>
+  /* Additional CSS styling */
+  .card {
+    animation: fadeInUp 0.5s;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 40px, 0);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+</style>
+
+{% block org_name %}
+{{org.name}}
+{% endblock org_name %}
+
+{% block logo %}
+  {% if org.logo %}
+    <img src="{{ org.logo.url }}" alt="{{ org.name }} Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+  {% endif %}
+{% endblock logo %}

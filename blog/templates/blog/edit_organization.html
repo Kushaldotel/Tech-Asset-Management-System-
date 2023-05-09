@@ -1,0 +1,123 @@
+{% extends 'blog/boilerplate.html' %}
+
+{% block title %}
+Organization details
+{% endblock title %}
+
+{% block content_Wrapper %}
+
+<div class="container-fluid">
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+
+      <div class="card">
+        <div class="card-header">
+          Edit Organization Details
+        </div>
+
+        <div class="card-body">
+
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group">
+              <label for="name">Name:</label>
+              <input type="text" class="form-control" name="name" value="{{ org.name }}">
+            </div>
+
+            <div class="form-group">
+              <label for="code">Code:</label>
+              <input type="text" class="form-control" name="code" value="{{ org.code }}">
+            </div>
+
+            <div class="form-group">
+              <label for="established_year">Established Year:</label>
+              <input type="text" class="form-control" name="established_year" value="{{ org.established_year }}">
+            </div>
+
+            <div class="form-group">
+              <label for="country">Country:</label>
+              <input type="text" class="form-control" name="country" value="{{ org.country }}">
+            </div>
+
+            <div class="form-group">
+              <label for="state">State:</label>
+              <input type="text" class="form-control" name="state" value="{{ org.state }}">
+            </div>
+
+            <div class="form-group">
+              <label for="city">City:</label>
+              <input type="text" class="form-control" name="city" value="{{ org.city }}">
+            </div>
+
+            <div class="form-group">
+              <label for="postal_code">Postal Code:</label>
+              <input type="text" class="form-control" name="postal_code" value="{{ org.postal_code }}">
+            </div>
+
+            <div class="form-group">
+              <label for="address">Address:</label>
+              <input type="text" class="form-control" name="address" value="{{ org.address }}">
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone:</label>
+              <input type="text" class="form-control" name="phone" value="{{ org.phone }}">
+            </div>
+
+            <div class="form-group">
+              <label for="fax">Fax:</label>
+              <input type="text" class="form-control" name="fax" value="{{ org.fax }}">
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="text" class="form-control" name="email" value="{{ org.email }}">
+            </div>
+
+            <div class="form-group">
+              <label for="website">Website:</label>
+              <input type="text" class="form-control" name="website" value="{{ org.website }}">
+            </div>
+
+
+            {% comment %} <div class="form-group">
+                <label for="branches">Branches:</label>
+                <div class="select2-purple">
+                  <select name="branches[]" class="select2" multiple="multiple" data-placeholder="Select branches"
+                          data-dropdown-css-class="select2-purple" style="width: 100%;">
+                    {% for branch in org.branches.all %}
+                      <option value="{{ branch.id }}" selected>{{ branch.name }}</option>
+                    {% endfor %}
+                    {% for branch in other_branches %}
+                      <option value="{{ branch.id }}">{{ branch.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div> {% endcomment %}
+
+
+              <div class="form-group">
+                <label for="logo">Logo:</label>
+                {% if org.logo %}
+                  <img src="{{ org.logo.url }}" class="img-thumbnail" style="max-height: 200px;">
+                  <br>
+                {% endif %}
+                <input type="file" name="logo">
+                <p class="help-block">Upload a new logo or leave it blank to keep the existing logo.</p>
+              </div>
+              <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary">
+              </div>
+              {% endblock content_Wrapper %}
+              
+{% block org_name %}
+{{org.name}}
+{% endblock org_name %}
+
+{% block logo %}
+  {% if org.logo %}
+    <img src="{{ org.logo.url }}" alt="{{ org.name }} Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+  {% endif %}
+{% endblock logo %}

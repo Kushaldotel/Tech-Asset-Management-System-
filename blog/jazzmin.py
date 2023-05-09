@@ -4,21 +4,14 @@
 # from django.urls import reverse
 # from django.utils.html import format_html
 
+
 # def my_custom_element():
 #     return {
 #         'title': 'My Custom Element',
-#         'content': format_html('<a href="{}">Click me</a>', reverse('myapp:mymodel_changelist')),
-#         'template': 'blog/home.html',
+#         'content': 'This is my custom element content.',
+#         'template': '',
 #         'order': 1
 #     }
-
-def my_custom_element():
-    return {
-        'title': 'My Custom Element',
-        'content': 'This is my custom element content.',
-        'template': '',
-        'order': 1
-    }
 
 
 JAZZMIN_SETTINGS = {
@@ -119,4 +112,4 @@ JAZZMIN_SETTINGS = {
 # 'custom_css': 'blog/css/custom.css'
 }
 
-JAZZMIN_DASHBOARD_ADMIN_ORDER = [    my_custom_element,    ...]
+# JAZZMIN_DASHBOARD_ADMIN_ORDER = [    my_custom_element,    ...]

@@ -58,6 +58,8 @@ class Country(models.Model):
     name = models.CharField(max_length=100)
     def __str__(self):
         return self.name
+    class Meta:
+        verbose_name_plural = _('Countries')
     
 class State(models.Model):
     name = models.CharField(max_length=100)
@@ -150,8 +152,8 @@ class Document(models.Model):
 
 class Status(models.Model):
     name = models.CharField(max_length=100)
-    def __str__(self):
-        
+    deleted = models.DateTimeField(null=True, blank=True)
+    def __str__(self):     
         return self.name
 class ServiceType:
     name = models.CharField(max_length=100)
@@ -217,7 +219,7 @@ class HardwareType(models.Model):
 
 class Hardware(models.Model):
     name = models.CharField(max_length=100)
-    hardware_type = models.ForeignKey(HardwareType,on_delete=models.CASCADE)
+    hardware_type = models.ForeignKey(HardwareType,on_delete=models.SET_NULL,null=True)
     vendor = models.ForeignKey(Vendor,on_delete=models.SET_NULL,blank=True,null=True)
     criticality = models.ForeignKey(Criticality, on_delete=models.CASCADE)
     branch = models.ForeignKey(Branch,on_delete=models.SET_NULL,blank=True,null=True)

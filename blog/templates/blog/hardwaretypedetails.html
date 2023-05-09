@@ -1,0 +1,58 @@
+{% extends 'blog/boilerplate.html' %}
+
+{% block title %}
+Hardware Details
+{% endblock title %}
+
+{% block content_Wrapper %}
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title">Hardware Types</h3>
+      </div>
+
+      <div class="box-body d-flex justify-content-center">
+        <div class="col-md-8">
+          <a href="{% url 'add_hardware' %}" class="btn btn-success btn-sm mb-3">Add Hardware</a>
+
+          <form method="POST" action="{% url 'delete_hardware' %}">
+            {% csrf_token %}
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th style="width: 10px"><input type="checkbox" id="select-all"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for hardware in hardware_types %}
+                  <tr>
+                    <td><a href="{% url 'edit_hardware' hardware.id %}">{{ hardware.name }}</a></td>
+                    <td><input type="checkbox" name="hardware_ids" value="{{ hardware.id }}"></td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+            <button type="submit" class="btn btn-danger btn-sm mt-3">Delete Selected Hardware</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content_Wrapper %}
+
+
+{% block org_name %}
+{{org.name}}
+{% endblock org_name %}
+
+{% block logo %}
+  {% if org.logo %}
+    <img src="{{ org.logo.url }}" alt="{{ org.name }} Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+  {% endif %}
+{% endblock logo %}
