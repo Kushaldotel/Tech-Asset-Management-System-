@@ -22,5 +22,15 @@ urlpatterns = [
      path('delete_hardware/', views.delete_hardware, name='delete_hardware'),
      path('edit_hardware/<int:hardware_id>/', views.edit_hardware, name='edit_hardware'),
      path('organization/edit/', views.edit_organization, name='edit_organization'),
+    #  path('state/', views.state_list, name='state'),
+     path('add_state/', views.add_state, name='add_state'),
+     path('trash-state/', views.trash_state, name='trash_state'),
+     path('state/', views.state_list, name='state'),
+     
+     path('delete/',views.delete_state,name='delete'),
+     path('restore_state/',views.restore_state,name='restore'),
+     path('delete_state_permanently/',views.delete_state_permanently,name='permanent'),
+     
+    #  path('delete-state-permanently/', views.delete_state_permanently, name='delete_state_permanently'),
 
 ]

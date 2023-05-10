@@ -1,15 +1,3 @@
-# from django.shortcuts import render
-# # Create your views here.
-# def Index(request):
-#     # return render(request,'blog/home.html')
-#     pass
-# def check(request):
-#     return render(request,'blog/test.html')
-
-# def Admin(request):
-#     return render(request,'blog/home.html')
-
-
 from datetime import datetime
 from django.shortcuts import get_object_or_404, render,redirect, get_list_or_404
 from django.views.generic import View
@@ -58,9 +46,7 @@ def dashboard(request):
     models = app_config.get_models()
     model_names = [model.__name__ for model in models]
     
-    
-    
-    
+       
     context ={
         'counts':hardware_type_counts,
         'models':model_names,
@@ -118,7 +104,11 @@ def edit_hardware(request, hardware_id):
         hardware.description = request.POST.get('description')
         hardware.save()
         return redirect('hardware_list')
-    return render(request, 'blog/edit_hardware.html', {'hardware': hardware},{'org':org})
+    context = {
+        'hardware': hardware,
+        'org':org
+    }
+    return render(request, 'blog/edit_hardware.html',context)
 
 from .forms import OrganizationDetailsForm,StatusDeleteForm, StatusRestoreForm
 
@@ -150,3 +140,70 @@ def edit_organization(request):
     return render(request, 'blog/edit_organization.html',context)
 
 
+def state_list(request):
+    states = State.objects.filter(is_deleted=False)    
+    context = {
+        'states': states,
+    }
+    return render(request, 'blog/statedetails.html', context)
+
+
+def add_state(request):
+    org = get_object_or_404(Organization_Details, id=5)
+
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        state = State(name=name)
+        state.save()
+        return redirect('delete_state')
+    else:
+        return render(request, 'blog/addstate.html',{'org':org})
+    
+# def delete_state(request):
+#     org = get_object_or_404(Organization_Details, id=5)
+    
+#     if request.method == 'POST':
+#         selected_state_ids = request.POST.getlist('state_ids')
+#         State.objects.filter(id__in=selected_state_ids).update(is_deleted=True)
+#         return redirect('delete_state')
+#     else:
+#         states = State.objects.filter(is_deleted=False)
+#     context = {
+#         'states': states,
+#         'org':org,
+#         'first_name': request.user.first_name,
+#         'last_name': request.user.last_name,
+#     }
+#     return render(request, 'blog/statedetails.html', context)
+
+@require_POST
+def delete_state(request):
+    state_ids = request.POST.getlist('state_ids')
+    State.objects.filter(id__in=state_ids).update(is_deleted=True)
+    return redirect('trash_state')
+
+
+
+
+def trash_state(request):
+    trashed_states = State.objects.filter(is_deleted=True)
+    context = {'trashed_states': trashed_states}
+    return render(request, 'blog/trashstate.html', context)
+
+@require_POST
+def restore_state(request):
+    state_ids = request.POST.getlist('state_ids')
+    State.objects.filter(id__in=state_ids).update(is_deleted=False)
+    return redirect('state')
+
+# @require_POST
+# def delete_state_permanently(request):
+#     state_ids = request.POST.getlist('state_ids')
+#     State.objects.filter(id__in=state_ids).delete()
+#     return redirect('trash_state')
+
+@require_POST
+def delete_state_permanently(request):
+    state_ids = request.POST.getlist('state_ids')
+    State.objects.filter(id__in=state_ids).delete()
+    return redirect('trash_state')
