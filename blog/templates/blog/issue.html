@@ -1,0 +1,23 @@
+{% extends 'blog/boilerplate.html' %}
+
+{% block content_Wrapper %}
+
+<h1>Create Issue</h1>
+<form method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Submit</button>
+</form>
+
+{% endblock content_Wrapper %}
+
+
+{% block org_name %}
+{{org.name}}
+{% endblock org_name %}
+
+{% block logo %}
+  {% if org.logo %}
+    <img src="{{ org.logo.url }}" alt="{{ org.name }} Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+  {% endif %}
+{% endblock logo %}

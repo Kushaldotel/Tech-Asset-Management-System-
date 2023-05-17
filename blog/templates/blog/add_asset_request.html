@@ -1,0 +1,59 @@
+{% extends 'blog/boilerplate.html' %}
+
+{% block content_Wrapper %}
+<div class="content-header">
+  <h1>Add Asset Request</h1>
+</div>
+
+<div class="content">
+  <div class="card">
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+          <label for="id_asset_type">Asset Type</label>
+          {{ form.asset_type }}
+        </div>
+        
+        <div class="form-group">
+          <label for="id_asset_name">Asset Name</label>
+          {{ form.asset_name }}
+        </div>
+        
+        <div class="form-group">
+          <label for="id_tentative_cost">Tentative Cost</label>
+          {{ form.tentative_cost }}
+        </div>
+        
+        <div class="form-group">
+          <label for="id_branch">Branch</label>
+          {{ form.branch }}
+        </div>
+        
+        <div class="form-group">
+          <label for="id_department">Department</label>
+          {{ form.department }}
+        </div>
+        
+        <div class="form-group">
+          <label for="id_description">Description</label>
+          {{ form.description }}
+        </div>
+        
+        <div class="form-group">
+          <label for="id_priority">Priority</label>
+          {{ form.priority }}
+        </div>
+        
+        <div class="form-group">
+          <label for="id_status">Status</label>
+          {{ form.status }}
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content_Wrapper %}

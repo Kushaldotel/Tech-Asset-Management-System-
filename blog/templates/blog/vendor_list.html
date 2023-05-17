@@ -1,0 +1,69 @@
+{% extends 'blog/boilerplate.html' %}
+
+{% block content_Wrapper %}
+
+<!-- branch_list.html -->
+
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0">Vendor List</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">Vendor List</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Manage Vendors</h3>
+        <div class="card-tools">
+          <a href="{% url 'add_vendor' %}" class="btn btn-primary">Add Vendor</a>
+        </div>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="{% url 'vendor_list' %}">
+          {% csrf_token %}
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Vat_PAN</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for vendor in vendors %}
+              <tr>
+                <td><a href="{% url 'edit_vendor' vendor.id %}">{{ vendor.full_name }}</a></td>
+                <td>{{ vendor.vat_pan }}</td>
+                <td>{{ vendor.address }}</td>
+                <td>{{ vendor.phone }}</td>
+                <td>{{ vendor.email }}</td>
+
+                <td>
+                  <input type="checkbox" name="selected_items" value="{{ vendor.id }}">
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <button type="submit" class="btn btn-danger">Delete Selected</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content_Wrapper %}

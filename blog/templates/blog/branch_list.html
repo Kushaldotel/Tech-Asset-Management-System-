@@ -1,0 +1,72 @@
+{% extends 'blog/boilerplate.html' %}
+
+{% block content_Wrapper %}
+
+<!-- branch_list.html -->
+
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0">Branch List</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">Branch List</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Manage Branches</h3>
+        <div class="card-tools">
+          <a href="{% url 'add_branch' %}" class="btn btn-primary">Add Branch</a>
+        </div>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="{% url 'branch_list' %}">
+          {% csrf_token %}
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Branch Name</th>
+                <th>Branch Incharge Name</th>
+                <th>Branch Incharge Phone</th>
+                <th>Country</th>
+                <th>City</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for branch in branches %}
+              <tr>
+                <td><a href="{% url 'edit_branch' branch.id %}">{{ branch.branch_name }}</a></td>
+                <td>{{ branch.branch_incharge_name }}</td>
+                <td>{{ branch.branch_incharge_phone }}</td>
+                <td>{{ branch.country }}</td>
+                <td>{{ branch.city }}</td>
+                <td>{{ branch.email }}</td>
+                <td>{{ branch.phone }}</td>
+                <td>
+                  <input type="checkbox" name="selected_items" value="{{ branch.id }}">
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <button type="submit" class="btn btn-danger">Delete Selected</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content_Wrapper %}

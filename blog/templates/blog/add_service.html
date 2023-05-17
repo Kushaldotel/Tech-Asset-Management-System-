@@ -1,0 +1,124 @@
+{% extends 'blog/boilerplate.html' %}
+
+{% block content_Wrapper %}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    
+    <section class="content-header">
+        <h1>Add Service</h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+                <form class="form-horizontal" method="post" action="">
+                    {% csrf_token %}
+
+                    <!-- Service Name -->
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">Service Name:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                    </div>
+
+                    <!-- Service Type -->
+                    <div class="form-group">
+                        <label for="service_type" class="col-sm-2 control-label">Service Type:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="service_type" name="service_type" required>
+                                {% for category in service_categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Criticality -->
+                    <div class="form-group">
+                        <label for="criticality" class="col-sm-2 control-label">Criticality:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="criticality" name="criticality" required>
+                                {% for criticality in criticalities %}
+                                <option value="{{ criticality.id }}">{{ criticality.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Managed By -->
+                    <div class="form-group">
+                        <label for="managed_by" class="col-sm-2 control-label">Managed By:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="managed_by" name="managed_by" required>
+                                {% for manager in managers %}
+                                <option value="{{ manager.id }}">{{ manager.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Document -->
+                    <div class="form-group">
+                        <label for="document" class="col-sm-2 control-label">Document:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="document" name="document" required>
+                                {% for doc in documents %}
+                                <option value="{{ doc.id }}">{{ doc.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Purchase Price -->
+                    <div class="form-group">
+                        <label for="purchase_price" class="col-sm-2 control-label">Purchase Price:</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="purchase_price" name="purchase_price">
+                        </div>
+                    </div>
+
+                    <!-- Purchase Date -->
+                    <div class="form-group">
+                        <label for="purchase_date" class="col-sm-2 control-label">Purchase Date:</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" id="purchase_date" name="purchase_date" required>
+                        </div>
+                    </div>
+
+                    <!-- Expiry Date -->
+                    <div class="form-group">
+                        <label for="expiry_date" class="col-sm-2 control-label">Expiry Date:</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" id="expiry_date" name="expiry_date" required>
+                        </div>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="form-group">
+                        <label for="status" class="col-sm-2 control-label">Status:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="status" name="status" required>
+                                {% for stat in statuses %}
+                                <option value="{{ stat.id }}">{{ stat.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Save button -->
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock content_Wrapper %}
+    

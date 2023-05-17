@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'django_cleanup.apps.CleanupConfig',
+    'crispy_forms',
+    # 'users',
 ]
 
 MIDDLEWARE = [
@@ -160,3 +162,5 @@ STATICFILES_DIRS = [
 ]
 
 LOGIN_URL = '/login/'
+
+

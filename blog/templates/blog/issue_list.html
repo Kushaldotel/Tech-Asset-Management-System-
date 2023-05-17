@@ -1,0 +1,58 @@
+{% extends 'blog/boilerplate.html' %}
+
+{% block content_Wrapper %}
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Issue List</h3>
+    <div class="card-tools">
+      <a href="{% url 'issue' %}" class="btn btn-success">Add Issue</a>
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <form method="post">
+      {% csrf_token %}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Select</th>
+            <th>Asset Category</th>
+            <th>Title</th>
+            <th>Assigned To</th>
+            <th>Category</th>
+            <th>Asset Name</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for issue in issues %}
+            <tr>
+              <td><input type="checkbox" name="delete" value="{{ issue.id }}"></td>
+              <td>{{ issue.asset_category }}</td>
+              {% comment %} <td><a href="{% url 'issue_detail' issue.id %}">{{ issue.title }}</a></td> {% endcomment %}
+              <td><a href="{% url 'issue_detail' issue.id %}">{{ issue.title }}</a></td>
+              <td>{{ issue.assigned_to }}</td>
+              <td>{{ issue.category }}</td>
+              <td>{{ issue.asset_name }}</td>
+              <td>{{ issue.status }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <button type="submit" class="btn btn-danger">Delete Selected</button>
+    </form>
+  </div>
+</div>
+
+{% endblock content_Wrapper %}
+
+
+{% block org_name %}
+{{org.name}}
+{% endblock org_name %}
+
+{% block logo %}
+  {% if org.logo %}
+    <img src="{{ org.logo.url }}" alt="{{ org.name }} Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+  {% endif %}
+{% endblock logo %}

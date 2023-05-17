@@ -1,0 +1,49 @@
+{% extends 'blog/boilerplate.html' %}
+
+{% block content_Wrapper %}
+<div class="d-flex justify-content-center">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Issue List</h3>
+      <div class="card-tools">
+        <a href="{% url 'create_issue_category' %}" class="btn btn-success">Add Category</a>
+      </div>
+    </div>
+    <div class="card-body p-0">
+      <form method="post">
+        {% csrf_token %}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Select</th>
+              <th>Name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for category in categories %}
+              <tr>
+                <td><input type="checkbox" name="delete" value="{{ category.id }}"></td>
+                <td><a href="">{{ category.name }}</a></td>
+                <td>{{ category.description }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <button type="submit" class="btn btn-danger">Delete Selected</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content_Wrapper %}
+
+
+{% block org_name %}
+{{org.name}}
+{% endblock org_name %}
+
+{% block logo %}
+  {% if org.logo %}
+    <img src="{{ org.logo.url }}" alt="{{ org.name }} Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+  {% endif %}
+{% endblock logo %}

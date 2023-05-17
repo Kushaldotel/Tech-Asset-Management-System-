@@ -1,0 +1,49 @@
+
+
+{% extends 'blog/boilerplate.html' %}
+
+{% block content_Wrapper %}
+<div class="content-header">
+  <div class="d-flex justify-content-between align-items-center">
+    <h1>Document Types</h1>
+    <a href="{% url 'add_document_type' %}" class="btn btn-primary">Add Document Type</a>
+  </div>
+</div>
+
+<div class="content">
+  <form method="post">
+    {% csrf_token %}
+    <div class="card">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Select</th>
+                <th>Name</th>
+                <th>Description</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              {% for document_type in document_types %}
+              <tr>
+                <td><input type="checkbox" name="selected_ids" value="{{ document_type.id }}"></td>
+                <td><a href="{% url 'edit_document_type' document_type.id %}">{{ document_type.name }}</a></td>
+                <td>{{ document_type.description }}</td>
+
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button type="submit" class="btn btn-danger">Delete Selected</button>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock content_Wrapper %}
+
+

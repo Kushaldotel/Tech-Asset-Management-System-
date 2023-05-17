@@ -1,0 +1,49 @@
+{% extends 'blog/boilerplate.html' %}
+
+{% block content_Wrapper %}
+
+<div class="content-header">
+  <h2>Create Software Type</h2>
+</div>
+
+<div class="content">
+  <form method="post">
+    {% csrf_token %}
+    <div class="card">
+      <div class="card-body">
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <textarea id="description" name="description" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="vendor">Vendor:</label>
+          <select id="vendor" name="vendor" class="form-control">
+            {% for vendor in vendors %}
+            <option value="{{ vendor.id }}">{{ vendor.full_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button type="submit" class="btn btn-primary">Create</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+{% endblock content_Wrapper %}
+
+
+{% block org_name %}
+{{org.name}}
+{% endblock org_name %}
+
+{% block logo %}
+  {% if org.logo %}
+    <img src="{{ org.logo.url }}" alt="{{ org.name }} Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+  {% endif %}
+{% endblock logo %}

@@ -1,0 +1,74 @@
+{% extends 'blog/boilerplate.html' %}
+
+{% block content_Wrapper %}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Hardware List</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{% url 'hardware_list' %}">Home</a></li>
+                    <li class="breadcrumb-item active">Hardware List</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Hardware List</h3>
+                        <div class="card-tools">
+                            <a href="{% url 'add_hardware' %}" class="btn btn-primary">Add Hardware</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Vendor</th>
+                                        <th>Criticality</th>
+                                        <th>Branch</th>
+                                        <th>Managed By</th>
+                                        <th>Document</th>
+                                        <th>Status</th>
+                                        <th>Select</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for hardware in hardware_list %}
+                                    <tr>
+                                        <td> <a href="{% url 'edit_hardware' hardware.id %}">{{ hardware.name }}</a> </td>
+                                        <td>{{ hardware.hardware_type }}</td>
+                                        <td>{{ hardware.vendor }}</td>
+                                        <td>{{ hardware.criticality }}</td>
+                                        <td>{{ hardware.branch }}</td>
+                                        <td>{{ hardware.managed_by }}</td>
+                                        <td>{{ hardware.document }}</td>
+                                        <td>{{ hardware.status }}</td>
+                                        <td><input type="checkbox" name="selected_hardware" value="{{ hardware.id }}"></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <button type="submit" class="btn btn-danger">Delete Selected</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content_Wrapper %}

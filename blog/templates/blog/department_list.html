@@ -1,0 +1,44 @@
+{% extends 'blog/boilerplate.html' %}
+
+{% block content_Wrapper %}
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Department List</h3>
+    <div class="card-tools">
+      <a href="{% url 'add_department' %}" class="btn btn-primary">Add Department</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <form method="POST">
+      {% csrf_token %}
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Department Name</th>
+            <th>Dept_Code</th>
+            <th>Description</th>
+            <th>Select</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for department in departments %}
+          <tr>
+            <td>
+              <a href="{% url 'edit_department' department.id %}" class="text-primary">{{ department.name }}</a>
+            </td>
+            <td>{{ department.code }}</td>
+            <td>{{ department.description }}</td>
+            <td>
+              <input type="checkbox" name="selected_departments" value="{{ department.id }}">
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <button type="submit" class="btn btn-danger">Delete Selected</button>
+    </form>
+  </div>
+</div>
+
+{% endblock content_Wrapper %}

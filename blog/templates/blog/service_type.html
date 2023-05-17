@@ -1,0 +1,45 @@
+{% extends 'blog/boilerplate.html' %}
+
+{% block content_Wrapper %}
+<div class="content-header">
+  <div class="d-flex justify-content-between align-items-center">
+    <h1>Service Types</h1>
+    <a href="{% url 'add_service_type' %}" class="btn btn-primary">Add Service Type</a>
+  </div>
+</div>
+
+<div class="content">
+  <form method="post">
+    {% csrf_token %}
+    <div class="card">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Select</th>
+                <th>Name</th>
+                <th>Vendor</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for service_type in service_types %}
+              <tr>
+                <td><input type="checkbox" name="selected_ids" value="{{ service_type.id }}"></td>
+                <td><a href="{% url 'edit_service_type' service_type.id %}">{{ service_type.name }}</a></td>
+                <td>{{ service_type.vendor }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button type="submit" class="btn btn-danger">Delete Selected</button>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock content_Wrapper %}
+
+

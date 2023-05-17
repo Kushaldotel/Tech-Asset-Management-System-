@@ -1,0 +1,11 @@
+{% extends 'blog/boilerplate.html' %}
+
+{% block content_Wrapper %}
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Branch</button>
+  </form>
+
+{% endblock content_Wrapper %}

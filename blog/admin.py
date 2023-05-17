@@ -3,9 +3,7 @@ import random
 import string
 from django.contrib import admin
 from django.http import HttpResponse
-from .models import Criticality,ManagedBy,Software,SoftwareType,Vendor
-from .models import Document,DocumentCategory,Status,Service,HardwareType,Hardware
-from .models import Insurance,Country,State,BranchStatus,Branch,Organization_Details
+from .models import *
 # from blog.views import MyCustomDashboardView
 
 
@@ -19,14 +17,14 @@ class DocumentAdmin(admin.ModelAdmin):
 
 # Register your models here.
 class SoftwareAdmin(admin.ModelAdmin):
-    list_display = ('name', 'software_type', 'criticality', 'vendor', 'managed_by')
+    list_display = ('name', 'software_type', 'criticality', 'vendor', 'managed_by','purchase_price')
 
     list_filter = ('software_type', 'criticality', 'vendor', 'managed_by')
     search_fields = ['__all__'] 
 
 
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'criticality', 'managed_by', 'document', 'purchase_date', 'expiry_date','status', 'service_tag')    
+    list_display = ('name', 'criticality', 'managed_by', 'document', 'purchase_date', 'expiry_date','status', 'service_tag','purchase_price')    
     readonly_fields = ('service_tag',)
     search_fields = ['__all__'] 
     
@@ -120,8 +118,11 @@ admin.site.register(Status)
 admin.site.register(Country)
 admin.site.register(State)
 admin.site.register(BranchStatus)
+admin.site.register(Service_Category)
+admin.site.register(Issue_Category)
+admin.site.register(Issue)
 
-#Model of another app
-# admin.site.register(Check)
+class AssetRequestAdmin(admin.ModelAdmin):
+    list_display = ('asset_name', 'asset_type', 'tentative_cost', 'branch', 'department', 'priority', 'status')
 
-# admin.site.register_view('my_custom_dashboard', view=MyCustomDashboardView.as_view())
+admin.site.register(AssetRequest, AssetRequestAdmin)

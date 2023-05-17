@@ -60,8 +60,6 @@
         </div> {% endcomment %}
 
         <a href="{% url 'logout_then_login' %}" class="btn btn-primary">Logout</a>
-
-
       </li>
 
       <!-- Messages Dropdown Menu -->
@@ -173,16 +171,19 @@
     <!-- Brand Logo -->
     <a href="{% url 'dashboard' %}" class="brand-link">
      {% block logo %}
-      <img src="{% static '../media/organization_logos/logo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      {% comment %} <img src="{% static '../media/organization_logos/logo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> {% endcomment %}
+        {% if org.logo %}
+    <img src="{{ org.logo.url }}" alt="{{ org.name }} Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+  {% endif %}
       {% endblock logo %}
       
       <span class="brand-text font-weight-light">
       {% block org_name %}
-      Trilokya Technology{% endblock org_name %}</span>
+      {{org.name}}{% endblock org_name %}</span>
     </a>
 
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar" >
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
@@ -207,8 +208,8 @@
       </div>
 
       <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+      <nav class="mt-2" >
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" >
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item menu-open">
@@ -234,25 +235,25 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/charts/chartjs.html" class="nav-link">
+                <a href="{% url 'software_list' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Software</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/charts/flot.html" class="nav-link">
+                <a href="{% url 'service_list' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Service</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/charts/inline.html" class="nav-link">
+                <a href="{% url 'hardware_list' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Hardware</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/charts/uplot.html" class="nav-link">
+                <a href="{% url 'document_list' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Documents</p>
                 </a>
@@ -269,15 +270,15 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/UI/general.html" class="nav-link">
+                <a href="{% url 'issue_list' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Issues</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/UI/icons.html" class="nav-link">
+                <a href="{% url 'issue_category' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Catagoery</p>
+                  <p>Category</p>
                 </a>
               </li>
             </ul>
@@ -293,7 +294,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/forms/general.html" class="nav-link">
+                <a href="{% url 'asset_request_list' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Request</p>
                 </a>
@@ -310,28 +311,67 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/tables/simple.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Hardware Name</p>
-                </a>
-              </li>
+
               <li class="nav-item">
                 <a href="{% url 'hardware_list' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Hardware Type</p>
                 </a>
               </li>
+
               <li class="nav-item">
-                <a href="pages/tables/jsgrid.html" class="nav-link">
+                <a href="{% url 'software_types' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Software Type</p>
                 </a>
               </li>
+
               <li class="nav-item">
                 <a href="{% url 'edit_organization' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Organization Details</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{% url 'service_types' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Service Types</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{% url 'document_types' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Document Category</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{% url 'branch_list' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Branches</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{% url 'department_list' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Departments</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{% url 'state' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>States</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{% url 'vendor_list' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Vendors</p>
                 </a>
               </li>
 
@@ -358,7 +398,7 @@
 
   <!-- Main Footer -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+    <strong>Copyright &copy; 2023 <a href="https://www.linkedin.com/company/trilokya-technology/" target="_blank">Trilokya Technology</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> 3.2.0

@@ -3,6 +3,7 @@ from django.db import models
 import random
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -125,6 +126,9 @@ class Software(models.Model):
     criticality = models.ForeignKey(Criticality, on_delete=models.CASCADE)
     vendor = models.ForeignKey(Vendor,on_delete=models.SET_NULL,blank=True,null=True)
     managed_by = models.ForeignKey(ManagedBy, on_delete=models.CASCADE)
+    purchase_price = models.PositiveIntegerField(null=True, blank=True)
+    branch = models.ForeignKey(Branch, on_delete=models.SET_NULL,null=True,blank=True)
+    
     # def __str__(self):
     #     return f"The software {self.name} is managed by {self.managed_by} as the criticality is {self.criticality}"
     
@@ -156,16 +160,21 @@ class Status(models.Model):
     deleted = models.DateTimeField(null=True, blank=True)
     def __str__(self):     
         return self.name
-class ServiceType:
+
+
+class Service_Category(models.Model):
     name = models.CharField(max_length=100)
-    description = models.TextField(max_length=200)
     vendor = models.ForeignKey(Vendor,on_delete=models.SET_NULL,blank=True,null=True)
+    def __str__(self):
+        return self.name
 
 class Service(models.Model):
     name = models.CharField(max_length=100)
+    service_type = models.ForeignKey(Service_Category,on_delete=models.CASCADE)
     criticality = models.ForeignKey(Criticality, on_delete=models.CASCADE)
     managed_by = models.ForeignKey(ManagedBy, on_delete=models.CASCADE) 
     document = models.ForeignKey(Document,on_delete=models.CASCADE)
+    purchase_price = models.PositiveIntegerField(null=True, blank=True)
     purchase_date = models.DateField()
     expiry_date = models.DateField()
     status = models.ForeignKey(Status,on_delete=models.CASCADE)
@@ -263,8 +272,65 @@ class Organization_Details(models.Model):
     #     return super().save(*args, **kwargs)
 
 
+class Issue_Category(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
+    def __str__(self):
+        return self.name
 
 
+class Issue(models.Model):
+    ASSET_CATEGORY_CHOICES = [
+        ('hardware', 'Hardware'),
+        ('software', 'Software'),
+        ('document', 'Document'),
+        ('service', 'Service'),
+    ]
+    Issue_Status_CHOICES = [
+        ('open', 'Open'),
+        ('closed', 'Closed'),
+        ('pending', 'Pending'),
+        ('resolved', 'Resolved'),
+    ]
+    asset_category = models.CharField(max_length=20, choices=ASSET_CATEGORY_CHOICES)
+    title = models.CharField(max_length=100)
+    assigned_to = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey(Issue_Category, on_delete=models.SET_NULL, null=True)
+    asset_name = models.CharField(max_length=100)
+    status = models.CharField(max_length=20, choices=Issue_Status_CHOICES, default='open')
+
+    def __str__(self):
+        return self.title
+
+
+class AssetRequest(models.Model):
+    ASSET_TYPES = [
+        ('Hardware', 'Hardware'),
+        ('Service', 'Service'),
+        ('Software', 'Software'),
+        ('Document', 'Document'),
+    ]
+
+    PRIORITIES = [
+        ('Uregent', 'Uregent'),
+        ('High', 'High'),
+        ('Medium', 'Medium'),
+        ('low', 'low'),
+    ]
+    PRIORITIES2 = [
+        ('Request', 'Request'),
+        ('Approve', 'Approve'),
+        ('Cancel', 'Cancel'),
+    ]
+
+    asset_type = models.CharField(choices=ASSET_TYPES, max_length=10)
+    asset_name = models.CharField(max_length=255)
+    tentative_cost = models.DecimalField(max_digits=10, decimal_places=2)
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)  # Foreign key to Branch model
+    department = models.ForeignKey(ManagedBy, on_delete=models.CASCADE)  # Foreign key to Department model
+    description = models.TextField()
+    priority = models.CharField(choices=PRIORITIES, max_length=10)
+    status = models.CharField(choices=PRIORITIES2,max_length=255)
 
 
 

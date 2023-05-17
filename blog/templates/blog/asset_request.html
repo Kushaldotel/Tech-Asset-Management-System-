@@ -1,0 +1,51 @@
+{% extends 'blog/boilerplate.html' %}
+
+{% block content_Wrapper %}
+<div class="content-header">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Asset Requests</h1>
+        <a href="{% url 'add_asset_request' %}" class="btn btn-primary">Add Asset Request</a>
+      </div>
+</div>
+
+<div class="content">
+  <form method="post">
+    {% csrf_token %}
+    <div class="card">
+      <div class="card-body">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Asset Name</th>
+              <th>Asset Type</th>
+              <th>Tentative Cost</th>
+              <th>Branch</th>
+              <th>Department</th>
+              <th>Priority</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for asset_request in asset_requests %}
+            <tr>
+              <td><input type="checkbox" name="selected_ids" value="{{ asset_request.id }}"></td>
+              <td><a href="{% url 'asset_request_edit' asset_request.id %}">{{ asset_request.asset_name }}</a></td>
+              <td>{{ asset_request.asset_type }}</td>
+              <td>{{ asset_request.tentative_cost }}</td>
+              <td>{{ asset_request.branch }}</td>
+              <td>{{ asset_request.department }}</td>
+              <td>{{ asset_request.priority }}</td>
+              <td>{{ asset_request.status }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="card-footer">
+        <button type="submit" class="btn btn-danger">Delete Selected</button>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock content_Wrapper %}
