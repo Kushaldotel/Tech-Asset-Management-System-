@@ -1,4 +1,4 @@
-# Tech-Asset-Management-System-
+# Tech-Asset-Management-System Made using HTML,BOOTSTRAP,JS and DJANGO
 This is a Tech asset management system. Using this Companies can manage their known asset.
 In future more advance features like detecting the unknown hardwares/assets will also be included that will help companies/industries
 to be safe from any kind of vulnerabilities. 
