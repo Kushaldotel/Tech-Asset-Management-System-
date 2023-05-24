@@ -17,6 +17,8 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
 
+  
+
   {% block extra_styles %}{% endblock extra_styles %}
 </head>
 <body class="hold-transition sidebar-mini">
@@ -167,17 +169,17 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <aside class="main-sidebar elevation-4 sidebar-light-fuchsia">
     <!-- Brand Logo -->
-    <a href="{% url 'dashboard' %}" class="brand-link">
+    <a href="#" class="brand-link">
      {% block logo %}
       {% comment %} <img src="{% static '../media/organization_logos/logo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> {% endcomment %}
         {% if org.logo %}
-    <img src="{{ org.logo.url }}" alt="{{ org.name }} Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <img src="{{ org.logo.url }}" alt="{{ org.name }} Logo" class="brand-image img-circle elevation-3 " style="opacity: .6">
   {% endif %}
       {% endblock logo %}
       
-      <span class="brand-text font-weight-light">
+      <span class="brand-text font-weight-dark">
       {% block org_name %}
       {{org.name}}{% endblock org_name %}</span>
     </a>
@@ -189,7 +191,7 @@
         <div class="image">
           <img src="{% static 'dist/img/loggedin2.png' %}" class="img-circle elevation-2" alt="User Image">
         </div>
-        <div class="info">
+        <div class="info font-weight-dark">
           {% comment %} <a href="#" class="d-block">{{username}}</a> {% endcomment %}
           <a href="#" class="d-block">{{first_name}} {{last_name}}</a>
         </div>
@@ -212,34 +214,39 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" >
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item menu-open">
+          {% if enable_dashboard %}
+               <li class="nav-item menu-open">
             {% comment %} <a href="{% url 'dashboard' %}" class="nav-link active"> {% endcomment %}
-              <a href="{% url 'dashboard' %}" class="nav-link {% if request.path == '/dashboard/' %}active{% endif %}">
+              {% comment %} <a href="{% url 'dashboard' %}" class="nav-link {% if request.path == '/dashboard/' %}active{% endif %}"> {% endcomment %}
+              <a href="{% url 'new_dashboard' %}" class="nav-link {% if request.path == '/new_dashboard/' %}active{% endif %}">
 
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
-                <!-- <i class="right fas fa-angle-left"></i> -->
               </p>
             </a>
           </li>
-
-
+          {% endif %}
+          
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
+              <i class="nav-icon fas fa-hands"></i>
               <p>
                 Asset Management
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
+              {% if enable_software %}
               <li class="nav-item">
                 <a href="{% url 'software_list' %}" class="nav-link">
+                {% comment %} <a href="{% url 'new_soft' %}" class="nav-link {% if request.path == '/new_soft/' %}active{% endif %}"> {% endcomment %}
                   <i class="far fa-circle nav-icon"></i>
                   <p>Software</p>
                 </a>
               </li>
+              {% endif %}
+              
               <li class="nav-item">
                 <a href="{% url 'service_list' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -262,7 +269,7 @@
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tree"></i>
+              <i class="nav-icon fas fa-exclamation-triangle"></i>
               <p>
                 Issue Management
                 <i class="fas fa-angle-left right"></i>
@@ -286,7 +293,7 @@
 
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-edit"></i>
+              <i class="nav-icon fas fa-list"></i>
               <p>
                 Asset request
                 <i class="fas fa-angle-left right"></i>
@@ -304,7 +311,7 @@
 
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-table"></i>
+              <i class="nav-icon fas fa-cog"></i>
               <p>
                 Administration
                 <i class="fas fa-angle-left right"></i>
@@ -374,6 +381,17 @@
                   <p>Vendors</p>
                 </a>
               </li>
+
+              {% if request.user.is_superuser%}
+              {% comment %} {% if request.user.is_superuser or request.user.username == 'john' %} {% endcomment %}
+              {% comment %} for multiple make {% if request.user.is_superuser or request.user.username in ['john', 'don'] %} {% endcomment %}
+              <li class="nav-item">
+                <a href="{% url 'buttons' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Modules</p>
+                </a>
+              </li>
+              {% endif %}
 
             </ul>
           </li>

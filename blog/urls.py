@@ -37,8 +37,10 @@ urlpatterns = [
      path('issue_list/',views.issue_list,name='issue_list'), 
      path('issue/',views.create_issue,name='issue'),
      path('issue/<int:pk>/', views.issue_detail, name='issue_detail'),
+     
      path('create_issue_category/',views.create_issue_category,name='create_issue_category'),
      path('issue_category/',views.issue_Category_list, name='issue_category'),
+     path('issue_category/edit/<int:pk>/', views.issue_category_edit, name='edit_issue_category'),
      
      path('asset-requests/', views.asset_request_list, name='asset_request_list'),
      path('add_asset_request/', views.add_asset_request, name='add_asset_request'),
@@ -82,6 +84,10 @@ urlpatterns = [
     path('software/add/', views.add_software, name='add_software'),
     path('software/edit/<int:software_id>/', views.edit_software, name='edit_software'),
     
+    path('trash-software/', views.trash_software, name='trash_software'),
+    path('restore_software/',views.restore_software,name='restore_software'),
+    path('delete_soft/',views.delete_software,name='delete_soft'),
+    
     
     path('documents/', views.document_list, name='document_list'),
     path('documents/add/', views.add_document, name='add_document'),
@@ -91,4 +97,11 @@ urlpatterns = [
     path('services/', views.service_list, name='service_list'),
     path('add_service/', views.add_service, name='add_service'),
     path('service/edit/<int:service_id>/', views.edit_service, name='edit_service'),
+    
+    
+    path('buttons/', views.button_handler, name='buttons'),
+    
+    path('toggle-hardware-value/', views.toggle_hardware_value, name='toggle_hardware_value'),
+    path('toggle-software-value/', views.toggle_software_value, name='toggle_software_value'),
+
 ]

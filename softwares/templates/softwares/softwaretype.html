@@ -1,0 +1,56 @@
+{% extends 'softwares/boilerplate.html' %}
+
+{% block content_Wrapper %}
+<div class="content-header">
+  <div class="d-flex justify-content-between align-items-center">
+    <h1>Software Types</h1>
+    <a href="{% url 'add_software_type' %}" class="btn btn-primary">Add Software Type</a>
+  </div>
+</div>
+
+<div class="content">
+  <form method="post">
+    {% csrf_token %}
+    <div class="card">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Select</th>
+                <th>Name</th>
+                <th>Description</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              {% for software_type in software_types %}
+              <tr>
+                <td><input type="checkbox" name="selected_ids" value="{{ software_type.id }}"></td>
+                <td><a href="{% url 'edit_software_type' software_type.id %}">{{ software_type.name }}</a></td>
+                <td>{{ software_type.description }}</td>
+
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button type="submit" class="btn btn-danger">Delete Selected</button>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock content_Wrapper %}
+
+
+{% block org_name %}
+{{org.name}}
+{% endblock org_name %}
+
+{% block logo %}
+  {% if org.logo %}
+    <img src="{{ org.logo.url }}" alt="{{ org.name }} Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+  {% endif %}
+{% endblock logo %}

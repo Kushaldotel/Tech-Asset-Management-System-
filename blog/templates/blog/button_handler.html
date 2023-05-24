@@ -1,0 +1,57 @@
+{% extends 'blog/boilerplate.html' %}
+{% load static %}
+
+{% block content_Wrapper %}
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Modules</h3>
+    </div>
+    <div class="card-body">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Module Name</th>
+            <th>Button</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for asset in assets %}
+            <tr>
+              <td>Dashboard</td>
+              <td>
+                <form action="{% url 'toggle_hardware_value' %}" method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="asset_id" value="{{ asset.id }}">
+                  <button type="submit" class="btn {% if asset.dashboard_value %}btn-success{% else %}btn-danger{% endif %} btn-sm">
+                    {% if asset.dashboard_value %}On{% else %}Off{% endif %}
+                  </button>
+                </form>
+              </td>
+            </tr>
+
+
+            <tr>
+                <td>Softwares</td>
+                <td>
+                  <form action="{% url 'toggle_software_value' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="value_id" value="{{ asset.id }}">
+                    <button type="submit" class="btn {% if asset.software_value %}btn-success{% else %}btn-danger{% endif %} btn-sm">
+                      {% if asset.software_value %}On{% else %}Off{% endif %}
+                    </button>
+                  </form>
+                </td>
+            </tr>
+
+            
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock content_Wrapper %}
+
+
+{% block title %}
+Modules
+{% endblock title %}

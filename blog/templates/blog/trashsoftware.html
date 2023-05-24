@@ -1,0 +1,67 @@
+{% extends 'blog/boilerplate.html' %}
+
+{% block title %}
+Trash Software
+{% endblock title %}
+
+{% block content_Wrapper %}
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title">Trashed Softwares</h3>
+      </div>
+
+      <div class="box-body d-flex justify-content-center">
+        <div class="col-md-8">
+
+          <form method="POST" action="{% url 'restore_software' %}">
+            {% csrf_token %}
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th style="width: 10px"><input type="checkbox" id="select-all"></th>
+                </tr>
+              </thead>
+              <tbody>
+
+
+                {% for software in trashed_softwares %}
+                <tr>
+                  <td><a href="#">{{ software.name }}</a></td>
+                  <td><input type="checkbox" name="selected_software" value="{{ software.id }}"></td>
+
+                </tr>
+              {% endfor %}
+
+              </tbody>
+            </table>
+
+            {% comment %} <a href="{% url 'restore' %}" class="btn btn-success btn-sm mb-3">Restore Selected State</a> {% endcomment %}
+            <button type="submit" class="btn btn-danger btn-sm mt-3">Restore software</button>
+
+
+            {% comment %} <a href="{% url 'permanent' %}" class="btn btn-success btn-sm mb-3">Delete Permanently</a> {% endcomment %}
+            {% comment %} <button type="submit" class="btn btn-danger btn-sm mt-3" formaction="{% url 'permanent' %}">Delete Permanently</button> {% endcomment %}
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content_Wrapper %}
+
+{% block org_name %}
+{{org.name}}
+{% endblock org_name %}
+
+{% block logo %}
+  {% if org.logo %}
+    <img src="{{ org.logo.url }}" alt="{{ org.name }} Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+  {% endif %}
+{% endblock logo %}

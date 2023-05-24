@@ -14,7 +14,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard</li>
+              {% comment %} <li class="breadcrumb-item active">Dashboard</li> {% endcomment %}
             </ol>
           </div>
         </div>
@@ -27,6 +27,7 @@
 
 
         <div class="row">
+          {% if enable_software %}
           <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-info">
@@ -36,11 +37,12 @@
                 <p>Total Softwares</p>
               </div>
               <div class="icon">
-                <i class="ion ion-cloud"></i>
+                <i class="fas fa-cloud"></i>
               </div>
               <a href="{% url 'software_list' %}" class="small-box-footer">View Softwares<i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
+          {% endif %}
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
@@ -51,7 +53,7 @@
                 <p>Total Services</p>
               </div>
               <div class="icon">
-                <i class="ion ion-settings"></i>
+                <i class="fas fa-wrench"></i>
               </div>
               <a href="{% url 'service_list' %}" class="small-box-footer">View Services<i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -66,7 +68,7 @@
                 <p>Total Hardwares</p>
               </div>
               <div class="icon">
-                <i class="ion ion-android-desktop"></i>
+                <i class="fas fa-server"></i>
               </div>
               <a href="{% url 'hardware_list' %}" class="small-box-footer">View Hardwares<i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -81,7 +83,7 @@
                 <p>Total Documents</p>
               </div>
               <div class="icon">
-                <i class="ion ion-document"></i>
+                <i class="fas fa-file-signature"></i>
               </div>
               <a href="{% url 'document_list' %}" class="small-box-footer">View Documents<i class="fas fa-arrow-circle-right"></i></a>
             </div>

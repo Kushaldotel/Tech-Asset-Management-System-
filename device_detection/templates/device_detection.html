@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Device Detection</title>
+</head>
+<body>
+    <h1>Known Devices:</h1>
+    <ul id="known-devices">
+    </ul>
+    <h1>New Devices:</h1>
+    <ul id="new-devices">
+    </ul>
+    <script>
+        const socket = new WebSocket('ws://' + window.location.host + '/ws/detect/');
+        socket.onmessage = function (e) {
+            const data = JSON.parse(e.data);
+            if (data.type === 'device_connected') {
+                // Code to handle new devices
+            } else if (data.type === 'known_devices') {
+                const knownDevices = data.known_devices;
+                const knownDevicesList = document.getElementById('known-devices');
+                knownDevices.forEach(device => {
+                    const deviceName = device.name;
+                    const deviceMacAddress = device.mac_address;
+                    const knownDeviceElement = document.createElement('li');
+                    knownDeviceElement.innerText = `${deviceName} (${deviceMacAddress})`;
+                    knownDevicesList.appendChild(knownDeviceElement);
+                });
+            }
+        };
+        
+        socket.onclose = function () {
+            console.error('Socket closed unexpectedly');
+        };
+        socket.onopen = function () {
+            socket.send(JSON.stringify({ 'command': 'start_detection' }));
+        };
+        window.addEventListener('beforeunload', function () {
+            socket.send(JSON.stringify({ 'command': 'stop_detection' }));
+        });
+    </script>
+</body>
+</html>

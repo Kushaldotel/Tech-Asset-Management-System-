@@ -126,3 +126,8 @@ class AssetRequestAdmin(admin.ModelAdmin):
     list_display = ('asset_name', 'asset_type', 'tentative_cost', 'branch', 'department', 'priority', 'status')
 
 admin.site.register(AssetRequest, AssetRequestAdmin)
+
+class AssetAdmin(admin.ModelAdmin):
+    list_display = ('hardware_name','dashboard_value','software_value')
+
+admin.site.register(Asset,AssetAdmin)

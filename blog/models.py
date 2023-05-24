@@ -128,6 +128,8 @@ class Software(models.Model):
     managed_by = models.ForeignKey(ManagedBy, on_delete=models.CASCADE)
     purchase_price = models.PositiveIntegerField(null=True, blank=True)
     branch = models.ForeignKey(Branch, on_delete=models.SET_NULL,null=True,blank=True)
+    is_deleted = models.BooleanField(default=False)
+    
     
     # def __str__(self):
     #     return f"The software {self.name} is managed by {self.managed_by} as the criticality is {self.criticality}"
@@ -333,7 +335,12 @@ class AssetRequest(models.Model):
     status = models.CharField(choices=PRIORITIES2,max_length=255)
 
 
-
+class Asset(models.Model):
+    hardware_name = models.CharField(max_length=255)
+    dashboard_value = models.BooleanField(default=True)
+    software_value = models.BooleanField(default=True)
+    def __str__(self):
+        return self.hardware_name
 
 
 

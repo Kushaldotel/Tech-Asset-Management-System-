@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render,redirect, get_list_or_404
 from django.views import View
 from .models import *
@@ -10,6 +11,9 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from .forms import *
+
+
+
 
 
 def login_view(request):
@@ -34,12 +38,14 @@ def Home(request):
 @login_required(login_url='login')
 def check(request):
     org = get_object_or_404(Organization_Details, id=5)
-    
+    dashboard = True  # Set this value based on your condition
+    enable_dashboard = True if dashboard else False
     context = {
     'username': request.user.username,
     'first_name': request.user.first_name,
     'last_name': request.user.last_name,
-    'org':org,}
+    'org':org,
+    'enable_dashboard':enable_dashboard,}
     
     return render(request,'blog/boilerplate.html',context)
 
@@ -48,12 +54,15 @@ def check(request):
 def dashboard(request):
     
     org = get_object_or_404(Organization_Details, id=5)
-
+    asset = Asset.objects.get(id=1)
+    
     hardware_type_counts = Hardware.objects.values('hardware_type__name').annotate(total=Count('hardware_type'))
     software_type_counts = Software.objects.values('software_type__name').annotate(total=Count('software_type'))
     document_type_counts = Document.objects.values('category__name').annotate(total=Count('category'))
     service_type_counts = Service.objects.values('service_type__name').annotate(total=Count('service_type'))
     app_config = apps.get_app_config('blog')
+    
+        
    
     models = app_config.get_models()
     model_names = [model.__name__ for model in models]
@@ -63,7 +72,10 @@ def dashboard(request):
     document_count = Document.objects.count()
     user_count = User.objects.count()
     
-    software_total = Software.objects.aggregate(total=Sum('purchase_price'))['total'] or 0
+    if asset.software_value==True:
+        software_total = Software.objects.aggregate(total=Sum('purchase_price'))['total'] or 0
+    else:
+        software_total = 0
     service_total = Service.objects.aggregate(total=Sum('purchase_price'))['total'] or 0
     hardware_total = Hardware.objects.aggregate(total=Sum('purchase_price'))['total'] or 0
     overall_total = software_total + service_total + hardware_total
@@ -90,7 +102,10 @@ def dashboard(request):
         'hardware_area_chart': hardware_area_chart,
         'pending_issue_count': pending_issue_count,
     }
-    return render(request,'blog/dashboard.html',context)
+    if asset.dashboard_value==True:
+        return render(request,'blog/dashboard.html',context)
+    return redirect('software_list')
+    # return JsonResponse({'error': 'Module Dashboard is disabled'})
 
 
 # def for_boiler(request):
@@ -208,10 +223,15 @@ def delete_state(request):
     State.objects.filter(id__in=state_ids).update(is_deleted=True)
     return redirect('trash_state')
 
+@require_POST
+def delete_software(request):
+    selected_software = request.POST.getlist('selected_software')
+    Software.objects.filter(id__in=selected_software).update(is_deleted=True)
+    return redirect('software_list')
+
 
 
 @login_required(login_url='login')
-
 def trash_state(request):
     org = get_object_or_404(Organization_Details, id=5)
     
@@ -220,11 +240,28 @@ def trash_state(request):
                'org':org}
     return render(request, 'blog/trashstate.html', context)
 
+
+def trash_software(request):
+    org = get_object_or_404(Organization_Details, id=5)
+    
+    trashed_softwares = Software.objects.filter(is_deleted=True)
+    context = {'trashed_softwares': trashed_softwares,
+               'org':org}
+    return render(request, 'blog/trashsoftware.html', context)
+
+
 @require_POST
 def restore_state(request):
     state_ids = request.POST.getlist('state_ids')
     State.objects.filter(id__in=state_ids).update(is_deleted=False)
     return redirect('state')
+
+
+@require_POST
+def restore_software(request):
+    selected_software = request.POST.getlist('selected_software')
+    Software.objects.filter(id__in=selected_software).update(is_deleted=False)
+    return redirect('software_list')
 
 
 @require_POST
@@ -235,7 +272,6 @@ def delete_state_permanently(request):
 
 
 @login_required(login_url='login')
-
 def create_issue(request):
     org = get_object_or_404(Organization_Details, id=5)
     
@@ -312,6 +348,20 @@ def issue_Category_list(request):
         return redirect('issue_category')
 
     return render(request, 'blog/issue_category.html', {'categories': category,'org':org})
+
+def issue_category_edit(request, pk):
+    org = get_object_or_404(Organization_Details, id=5)
+    
+    category = get_object_or_404(Issue_Category, pk=pk)
+    if request.method == 'POST':
+        form = Issue_CategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('issue_category')
+    else:
+        form = Issue_CategoryForm(instance=category)
+    return render(request, 'blog/edit_issue_category.html', {'form': form,'org':org})
+
 
 
 @login_required(login_url='login')
@@ -544,7 +594,9 @@ class BranchListView(View):
     def get(self, request):
         org = get_object_or_404(Organization_Details, id=5)
         branches = Branch.objects.all()
-        return render(request, 'blog/branch_list.html', {'branches': branches,'org':org})
+        return render(request, 'blog/branch_list.html', {'branches': branches,'org':org,
+                                                         'first_name': request.user.first_name,
+                                                         'last_name': request.user.last_name,})
 
     def post(self, request):
         selected_items = request.POST.getlist('selected_items')
@@ -763,13 +815,20 @@ def edit_hardware(request, hardware_id):
 # @login_required(login_url='login')
 def software_list(request):
     org = get_object_or_404(Organization_Details, id=5)
-    software_list = Software.objects.all()
-
+    # software_list = Software.objects.all()
+    software_list = Software.objects.filter(is_deleted=False)    
+    
+    asset = Asset.objects.get(id=1)
+    
+    if asset.software_value==False:
+        return JsonResponse({'software_Module': 'Disabled'})
+    
+    
     if request.method == 'POST':
         selected_software = request.POST.getlist('selected_software')
         Software.objects.filter(id__in=selected_software).delete()
         return redirect('software_list')
-
+    
     context = {'software_list': software_list,
                 'org': org,
                'first_name': request.user.first_name,
@@ -778,6 +837,11 @@ def software_list(request):
 
 def add_software(request):
     org = get_object_or_404(Organization_Details, id=5)
+    asset = Asset.objects.get(id=1)
+    
+    if asset.software_value==False:
+        return JsonResponse({'software_Module': 'Disabled'})
+    
     if request.method == 'POST':
         form = SoftwareForm(request.POST)
         if form.is_valid():
@@ -948,3 +1012,40 @@ def edit_service(request, service_id):
         'service': service,
     }
     return render(request, 'blog/edit_service.html', context)
+
+from django.contrib.auth.decorators import user_passes_test
+@login_required(login_url='login')
+@user_passes_test(lambda u: u.is_superuser)
+def button_handler(request):
+    org = get_object_or_404(Organization_Details, id=5)
+    assets = Asset.objects.all()
+    context = {
+
+            'org': org,
+               'first_name': request.user.first_name,
+               'last_name': request.user.last_name,
+               'assets': assets,
+    }
+    return render(request, 'blog/button_handler.html',context)
+
+
+def toggle_hardware_value(request):
+    if request.method == 'POST':
+        asset_id = request.POST.get('asset_id')
+        asset = get_object_or_404(Asset, id=asset_id)
+
+        asset.dashboard_value = not asset.dashboard_value  # Toggle the value
+        asset.save()
+
+    return redirect('buttons')
+
+def toggle_software_value(request):
+    if request.method == 'POST':
+        asset_id = request.POST.get('value_id')
+        asset = get_object_or_404(Asset, id=asset_id)
+
+        asset.software_value = not asset.software_value  # Toggle the value
+        asset.save()
+
+    return redirect('buttons')
+

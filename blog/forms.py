@@ -126,3 +126,8 @@ class ServiceForm(forms.ModelForm):
     class Meta:
         model = Service
         fields = '__all__'
+        
+class Issue_CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Issue_Category
+        fields = '__all__'
