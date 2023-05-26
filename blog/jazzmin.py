@@ -24,9 +24,9 @@ JAZZMIN_SETTINGS = {
     "site_header": "Trilokya Admin",
     "welcome_sign": "Welcome to Trilokya",
     "copyright": "Trilokya Technology",
-    "site_logo": "blog/logo.png",
+    "site_logo": "tri.png",
     # "language_chooser": True,
-    
+
     
         # Links to put along the top menu
     "topmenu_links": [
@@ -85,7 +85,7 @@ JAZZMIN_SETTINGS = {
 
     
     
-    # "site_icon": "blog/s.svg",
+    "site_icon": "tri.png",
     # <i class="fa-solid fa-gauge-high"></i>
     
     

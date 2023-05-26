@@ -1049,3 +1049,32 @@ def toggle_software_value(request):
 
     return redirect('buttons')
 
+
+
+def sss(request):
+    # criticalities = Criticality.objects.all()
+    # context = {
+    #     'criticalities': criticalities,
+    # }
+    hardware_types = HardwareType.objects.all()
+    vendors = Vendor.objects.all()
+    criticalities = Criticality.objects.all()
+    branches = Branch.objects.all()
+    managed_bys = ManagedBy.objects.all()
+    documents = Document.objects.all()
+    statuses = Status.objects.all()
+    insurances = Insurance.objects.all()
+
+    context = {
+        'hardware_types': hardware_types,
+        'vendors': vendors,
+        'criticalities': criticalities,
+        'branches': branches,
+        'managed_bys': managed_bys,
+        'documents': documents,
+        'statuses': statuses,
+        'insurances': insurances,
+    }
+
+    
+    return render(request, 'blog/ssss.html',context)

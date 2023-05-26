@@ -104,4 +104,7 @@ urlpatterns = [
     path('toggle-hardware-value/', views.toggle_hardware_value, name='toggle_hardware_value'),
     path('toggle-software-value/', views.toggle_software_value, name='toggle_software_value'),
 
+
+    path('sss/', views.sss, name='sss'),
+
 ]

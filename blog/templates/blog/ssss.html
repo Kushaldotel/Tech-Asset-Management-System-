@@ -1,0 +1,247 @@
+ {% extends 'blog/boilerplate.html' %}
+{% comment %}
+{% block content_Wrapper %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Asset Details</h4>
+                    <form id="assetForm">
+                        <div class="form-group">
+                            <label for="hardwareType">Hardware Type *</label>
+                            <input type="text" class="form-control" id="hardwareType" name="hardwareType" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hardwareName">Hardware Name *</label>
+                            <input type="text" class="form-control" id="hardwareName" name="hardwareName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="vendorName">Vendor Name *</label>
+                            <input type="text" class="form-control" id="vendorName" name="vendorName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="purchaseDate">Purchase Date</label>
+                            <input type="text" class="form-control" id="purchaseDate" name="purchaseDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="expireDate">Expire Date</label>
+                            <input type="text" class="form-control" id="expireDate" name="expireDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="billingNumber">Billing Number</label>
+                            <input type="text" class="form-control" id="billingNumber" name="billingNumber">
+                        </div>
+                        <div class="form-group">
+                            <label for="serialNumber">Serial Number</label>
+                            <input type="text" class="form-control" id="serialNumber" name="serialNumber">
+                        </div>
+                        <div class="form-group">
+                            <label for="purchasePrice">Purchase Price</label>
+                            <input type="text" class="form-control" id="purchasePrice" name="purchasePrice">
+                        </div>
+                        <div class="form-group">
+                            <label for="criticality">Criticality *</label>
+                            <select class="form-control" id="criticality" name="criticality" required>
+                                <option value="">Select Criticality</option>
+                                {% for criticality in criticalities %}
+                                    <option value="{{ criticality.id }}">{{ criticality.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="assetStatus">Asset is currently *</label>
+                            <select class="form-control" id="assetStatus" name="assetStatus" required>
+                                <option value="">Select Asset Status</option>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                                <option value="Retired">Retired</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="managedBy">Managed By *</label>
+                            <input type="text" class="form-control" id="managedBy" name="managedBy" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="document">Document</label>
+                            <input type="file" class="form-control-file" id="document" name="document">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add JavaScript logic for form submission or validation if needed
+</script>
+
+<!-- Include necessary CSS and JavaScript files for AdminLTE 3.2.0 styling -->
+<link rel="stylesheet" href="path/to/admin.min.css">
+<script src="path/to/admin.min.js"></script>
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="insuranceCheckbox">
+                                <label class="custom-control-label" for="insuranceCheckbox">Insurance</label>
+                            </div>
+                        </div>
+                        <form id="insuranceForm" style="display: none;">
+                            <div class="form-group">
+                                <label for="insurancePolicy">Insurance Policy</label>
+                                <input type="text" class="form-control" id="insurancePolicy" name="insurancePolicy">
+                            </div>
+                            <div class="form-group">
+                                <label for="insuranceNumber">Insurance Number</label>
+                                <input type="text" class="form-control" id="insuranceNumber" name="insuranceNumber">
+                            </div>
+                            <div class="form-group">
+                                <label for="price">Price</label>
+                                <input type="text" class="form-control" id="price" name="price">
+                            </div>
+                            <div class="form-group">
+                                <label for="expiryDate">Date of Expiry</label>
+                                <input type="text" class="form-control" id="expiryDate" name="expiryDate">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('insuranceCheckbox').addEventListener('change', function() {
+            var form = document.getElementById('insuranceForm');
+            if (this.checked) {
+                form.style.display = 'block';
+            } else {
+                form.style.display = 'none';
+            }
+        });
+    </script>
+{% endblock content_Wrapper %} {% endcomment %}
+
+
+{% block content_Wrapper %}
+
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Hardware Form</h3>
+  </div>
+  <div class="card-body">
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="id_name">Name:</label>
+        <input type="text" class="form-control" id="id_name" name="name">
+      </div>
+      <div class="form-group">
+        <label for="id_hardware_type">Hardware Type:</label>
+        <select class="form-control" id="id_hardware_type" name="hardware_type">
+          {% for hardware_type in hardware_types %}
+            <option value="{{ hardware_type.id }}">{{ hardware_type.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="id_vendor">Vendor:</label>
+        <select class="form-control" id="id_vendor" name="vendor">
+          {% for vendor in vendors %}
+            <option value="{{ vendor.id }}" label="Select">{{vendor.full_name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="id_criticality">Criticality:</label>
+        <select class="form-control" id="id_criticality" name="criticality">
+          {% for criticality in criticalities %}
+            <option value="{{ criticality.id }}">{{ criticality.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="id_branch">Branch:</label>
+        <select class="form-control" id="id_branch" name="branch">
+          {% for branch in branches %}
+            <option value="{{ branch.id }}">{{ branch.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="id_managed_by">Managed By:</label>
+        <select class="form-control" id="id_managed_by" name="managed_by">
+          {% for managed_by in managed_bys %}
+            <option value="{{ managed_by.id }}">{{ managed_by.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="id_document">Document:</label>
+        <select class="form-control" id="id_document" name="document">
+          {% for document in documents %}
+            <option value="{{ document.id }}">{{ document.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="id_status">Status:</label>
+        <select class="form-control" id="id_status" name="status">
+          {% for status in statuses %}
+            <option value="{{ status.id }}">{{ status.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="id_purchase_date">Purchase Date:</label>
+        <input type="date" class="form-control" id="id_purchase_date" name="purchase_date">
+      </div>
+      <div class="form-group">
+        <label for="id_expiry_date">Expiry Date:</label>
+        <input type="date" class="form-control" id="id_expiry_date" name="expiry_date">
+      </div>
+      <div class="form-group">
+        <label for="id_billing_no">Billing No:</label>
+        <input type="number" class="form-control" id="id_billing_no" name="billing_no">
+      </div>
+      <div class="form-group">
+        <label for="id_serial_no">Serial No:</label>
+        <input type="number" class="form-control" id="id_serial_no" name="serial_no">
+      </div>
+      <div class="form-group">
+        <label for="id_purchase_price">Purchase Price:</label>
+        <input type="number" class="form-control" id="id_purchase_price" name="purchase_price">
+      </div>
+      <div class="form-group">
+        <label for="id_insurance">Insurance:</label>
+        <select class="form-control" id="id_insurance" name="insurance">
+          {% for insurance in insurances %}
+            <option value="{{ insurance.id }}">{{ insurance.policy_number }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+{% endblock content_Wrapper %}

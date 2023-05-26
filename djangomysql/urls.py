@@ -26,5 +26,6 @@ urlpatterns = [
     path('',include('softwares.urls')),
     path('',include('dashboard.urls')),
     path('',include('extraction.urls')),
+    path('',include('hardware.urls'))
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

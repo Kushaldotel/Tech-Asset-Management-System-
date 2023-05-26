@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'dashboard',
     'softwares',
     'extraction',
+    'hardware',
 ]
 
 MIDDLEWARE = [
